@@ -1,4 +1,4 @@
-Hello there's a bunch of info in here such as [Jailbreaks](https://github.com/f9p1h7-cell/iOS-inf0#jailbreaks)
+Hello there's a bunch of info in here such as [Jailbreaks](https://github.com/f9p1h7-cell/iDevice-info#jailbreaks)
 
 and a [Guide](https://github.com/f9p1h7-cell/iDevice-info/wiki/Guide) there's a [Q&A](https://github.com/f9p1h7-cell/iDevice-info/wiki/Q&A) if you want to check it
 
