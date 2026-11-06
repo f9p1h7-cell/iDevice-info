@@ -910,4 +910,4 @@ iPad mini 2 / mini 3 12.5.7
  
 iPod touch 4th gen 6.1.6
  
-iPod touch 5th gen 10.3.3/4
+iPod touch 5th gen 9.3.5/6
