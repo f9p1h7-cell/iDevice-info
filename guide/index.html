@@ -178,6 +178,13 @@
       font-size: 1.02rem;
     }
 
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
     .badge {
       font-size: 0.76rem;
       padding: 2px 8px;
@@ -200,13 +207,121 @@
       border-color: rgba(63, 185, 80, 0.3);
     }
 
+    .arrow-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .arrow-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
     .section-body {
       padding: 14px 16px;
       font-size: 0.92rem;
     }
 
     .section-body p {
-      margin: 0;
+      margin: 0 0 10px;
+    }
+
+    .section-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .tutorial-panel {
+      display: none;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .tutorial-panel.open {
+      display: block;
+    }
+
+    .disclaimer-box {
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: var(--warn-soft);
+      border: 1px solid rgba(210, 153, 34, 0.38);
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .bullet-list,
+    .step-list {
+      margin: 0 0 14px;
+      padding-left: 20px;
+    }
+
+    .bullet-list li,
+    .step-list li {
+      margin-bottom: 6px;
+    }
+
+    .bullet-list ul,
+    .step-list ul {
+      margin-top: 6px;
+      padding-left: 18px;
+    }
+
+    .subpath-title {
+      margin: 14px 0 8px;
+      font-size: 0.96rem;
+      color: var(--accent);
+    }
+
+    .guide-img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin: 12px 0;
+    }
+
+    pre {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+      overflow-x: auto;
+      margin: 8px 0 12px;
+    }
+
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: 0.85em;
+    }
+
+    .tutorial-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .back-top {
+      font-size: 0.85rem;
     }
 
     code {
@@ -226,7 +341,7 @@
     }
   </style>
 </head>
-<body>
+<body id="top">
   <header>
     <div class="container">
       <div class="top-bar">
@@ -277,60 +392,530 @@
         <section id="g-1" class="section-block">
           <div class="section-header">
             <h2>Restore/Downgrade a 32-bit device to iOS 8.4.1/6.1.3</h2>
-            <span class="badge badge-ok">Downgrade</span>
+            <div class="header-actions">
+              <span class="badge badge-ok">Downgrade</span>
+              <button id="showTutorialBtn" class="arrow-btn" type="button" aria-expanded="false" aria-controls="tutorial-g-1">
+                <span>&#8595;</span> Show Tutorial
+              </button>
+            </div>
           </div>
           <div class="section-body">
             <p>OTA downgrade path for supported 32-bit hardware (such as iPhone 4S, iPhone 5, iPad 2, and iPod touch 5th gen depending on target version).</p>
+
+            <div id="tutorial-g-1" class="tutorial-panel">
+              <div class="disclaimer-box">You are supposed to use Legacy iOS Kit with this!!</div>
+
+              <ul class="bullet-list">
+                <li>The procedure will be depending on your usage, operating system, and iOS device. Make sure that your setup is supported by the script. See the README for details.</li>
+                <li>You do NOT need blobs for iOS 8.4.1/6.1.3, the script will get them for you.</li>
+                <li>The restore will ERASE ALL DATA on your iOS device. Backup your data before proceeding.</li>
+                <li>Make sure to have free space on your PC/Mac for the IPSW files.</li>
+                <li>Do not rename the IPSW firmwares from their default names.</li>
+                <li>If your device is not on the latest iOS version, I recommend saving onboard blobs first before continuing.</li>
+                <li>"A6(X)" refers to iPhone 5 and iPad 4.</li>
+                <li>"A5(X)" refers to iPhone 4S, iPad 2, iPad 3, iPad mini 1, and iPod touch 5th gen.</li>
+                <li>If the option has "jailbroken", jailbreak your device first. If not, jailbreaking is not required.</li>
+                <li>If the script always fails to detect your device, try rebooting your PC/Mac.</li>
+              </ul>
+
+              <h3 class="subpath-title">For devices jailbroken with Pangu</h3>
+              <ul class="bullet-list">
+                <li>For devices using Pangu and jailbroken method, you need to install the latest untether for your iOS version first before continuing.</li>
+              </ul>
+
+              <p><strong>Please select your iOS device.</strong></p>
+
+              <h3 class="subpath-title">All devices, jailbroken on iOS 9 or lower</h3>
+              <ul class="bullet-list">
+                <li>Note: If you used EverPwnage to jailbreak, you may start from the 4th step since OpenSSH is pre-installed (unless you disabled it)</li>
+              </ul>
+              <ol class="step-list">
+                <li>Open Cydia on your device, and wait for sources to refresh.
+                  <ul>
+                    <li>If refreshing takes too long, remove the ultrasn0w and ZodTTD repos, force close Cydia, then open Cydia again.</li>
+                  </ul>
+                </li>
+                <li>When it asks to upgrade, you can choose to not upgrade anything (Ignore), it is optional.</li>
+                <li>Search for "OpenSSH" and install it.</li>
+                <li>Plug in your device and start the script by running <code>restore.sh</code></li>
+                <li>When the main menu shows up, select Restore/Downgrade.</li>
+                <li>Select your preferred option/iOS version.</li>
+                <li>Download/select the IPSW(s) needed to continue.</li>
+                <li>Select Start Restore.</li>
+                <li>When prompted, select your options and follow on-screen instructions to put the device to kDFU/pwnDFU mode.</li>
+                <li>After the restore process, your device should be successfully downgraded/restored to your selected target version.</li>
+              </ol>
+
+              <h3 class="subpath-title">A6(X) devices, jailbroken on iOS 10</h3>
+              <ul class="bullet-list">
+                <li>You need to jailbreak with socket to follow these steps.</li>
+              </ul>
+              <ol class="step-list">
+                <li>Open Zebra on your device, and wait for sources to refresh.</li>
+                <li>Add my repository: <code>https://lukezgd.github.io/repo/</code>
+                  <ul>
+                    <li>Go to Sources, then tap '+' at the top left.</li>
+                  </ul>
+                </li>
+                <li>Search and install "Dropbear" from my repo.</li>
+                <li>Plug in your device and start the script by running <code>restore.sh</code></li>
+                <li>When the main menu shows up, select Restore/Downgrade.</li>
+                <li>Select your preferred option/iOS version.</li>
+                <li>Download/select the IPSW(s) needed to continue.</li>
+                <li>Select Start Restore.</li>
+                <li>When prompted, select your options and follow on-screen instructions to put the device to kDFU/pwnDFU mode.</li>
+                <li>After the restore process, your device should be successfully downgraded/restored to your selected target version.</li>
+              </ol>
+
+              <h3 class="subpath-title">A5(X) devices, not jailbroken</h3>
+              <ul class="bullet-list">
+                <li>It is highly recommended to jailbreak your device and follow the "jailbroken" steps instead of doing this. Only use this if you are unable to jailbreak at all for some reason.</li>
+                <li>You need to have an Arduino and USB Host Shield or a Raspberry Pi Pico in order to use checkm8-a5. Go to the "checkm8-a5" page for more details.</li>
+              </ul>
+
+              <h3 class="subpath-title">Older devices and A6(X) devices, not jailbroken</h3>
+              <ul class="bullet-list">
+                <li>A6(X) devices: It is highly recommended to jailbreak your device and follow the "jailbroken" steps instead of doing this. Only use this if you are unable to jailbreak at all for some reason.</li>
+                <li>You NEED a working Home and Top/Power button to enter DFU mode to follow this.</li>
+                <li>If your button/s are broken and you are unable to jailbreak nor enter DFU mode, see here for details about "DFU IPSW"</li>
+              </ul>
+              <ol class="step-list">
+                <li>Plug in your device and place your device in DFU mode.</li>
+                <li>Start the script by running <code>restore.sh</code></li>
+                <li>When the main menu shows up, select Restore/Downgrade.</li>
+                <li>When prompted, select your options and follow the given instructions to put the device to pwnDFU mode.
+                  <ul>
+                    <li>If you are using Linux, it will likely fail a lot here for A6(X) devices. It is recommended to follow the jailbroken steps instead.</li>
+                    <li>If you have a spare iOS device that is jailbroken, you can use iPwnder Lite for iOS</li>
+                  </ul>
+                </li>
+                <li>After the restore process, your device will be successfully downgraded/restored to your selected target version.</li>
+              </ol>
+              <ul class="bullet-list">
+                <li>If you are having trouble placing the device in pwnDFU mode, proceed here for alternatives.</li>
+              </ul>
+
+              <div class="tutorial-footer">
+                <button id="hideTutorialBtn" class="arrow-btn" type="button">
+                  <span>&#8593;</span> Hide Tutorial
+                </button>
+                <a class="back-top" href="#top">Scroll Back to Top</a>
+              </div>
+            </div>
           </div>
         </section>
 
         <section id="g-2" class="section-block">
           <div class="section-header">
             <h2>Restore/Downgrade (and hacktivate) an iPhone 2G/3G/3GS/4/4S, iPod touch 1/2/3/4, iPad 1</h2>
-            <span class="badge">Legacy 32-bit</span>
+            <div class="header-actions">
+              <span class="badge">Legacy 32-bit</span>
+              <button id="showTutorialBtn2" class="arrow-btn" type="button" aria-expanded="false" aria-controls="tutorial-g-2">
+                <span>&#8595;</span> Show Tutorial
+              </button>
+            </div>
           </div>
           <div class="section-body">
-            <p>Covers restoring, downgrading, and hacktivating early 30-pin and early Lightning 32-bit iPhones, iPod touches, and the 1st-gen iPad.</p>
+            <p>Covers restoring, downgrading, and hacktivating early 30-pin and early Lightning 32-bit iPhones, iPod touches, and the 1st-gen iPad without existing blobs.</p>
+
+            <div id="tutorial-g-2" class="tutorial-panel">
+              <div class="disclaimer-box">You are supposed to use Legacy iOS Kit with this!!</div>
+
+              <ul class="bullet-list">
+                <li>The procedure will be depending on your usage, operating system, and iOS device. Make sure that your setup is supported by the script. See the README for details.</li>
+                <li>You do NOT need existing blobs to use this.</li>
+                <li>This page for the restoring (and jailbreaking) the following devices without existing blobs:
+                  <ul>
+                    <li>iPhone 3G/3GS/4/4S, iPad 1, iPod touch 2/3/4 - latest/lower iOS versions</li>
+                    <li>iPhone 2G, iPod touch 1st gen - iOS 3.1.3</li>
+                    <li>For restoring with SHSH blobs, go to: Restore-32-bit-Device</li>
+                  </ul>
+                </li>
+                <li>iPhone 2G, 3G, and 3GS also have the option to hacktivate for the custom IPSW</li>
+                <li>The restore will ERASE ALL DATA on your iOS device. Backup your data before proceeding.</li>
+                <li>Make sure to have at least 10 GB of free space on your PC/Mac.</li>
+                <li>Do not rename the IPSW firmwares from their default names.</li>
+                <li>If you are on an iOS version that is not the latest, I recommend saving onboard blobs first before continuing.</li>
+                <li>You NEED a working Home and Top/Power button to enter DFU mode when needed.
+                  <ul>
+                    <li>If your button/s are broken, you can use a DFU IPSW to force the device to DFU mode. This will also clear all device data, so backup data and SHSH blobs before proceeding.</li>
+                    <li>To proceed using a DFU IPSW, run the script and go to: Restore/Downgrade -&gt; DFU IPSW</li>
+                  </ul>
+                </li>
+              </ul>
+
+              <p><strong>Please select your operating system and iOS device.</strong></p>
+
+              <h3 class="subpath-title">iPhone 4 GSM and CDMA, iPad 1, iPod touch 3 - restore (and jailbreak) with powdersn0w</h3>
+              <ul class="bullet-list">
+                <li>For iPhone 4, it must be a GSM or CDMA model (iPhone3,1 or 3,3) to use powdersn0w on Legacy iOS Kit. iPhone3,2 is not supported.</li>
+              </ul>
+              <ol class="step-list">
+                <li>Connect your iOS device to your PC/Mac.</li>
+                <li>Start the script by running <code>restore.sh</code></li>
+                <li>When the main menu shows up, select Restore/Downgrade -&gt; powdersn0w.</li>
+                <li>Select Base IPSW.
+                  <ul>
+                    <li>For the iPhone 4, download and select iOS 7.1.2 IPSW.</li>
+                    <li>For the iPad 1 and touch 3, download and select iOS 5.1.1 IPSW.</li>
+                  </ul>
+                </li>
+                <li>Select Target IPSW. This will be the IPSW for the iOS version that you want to restore/downgrade to.</li>
+                <li>When prompted, select your options and follow the given instructions to put the device to kDFU/pwnDFU mode.</li>
+                <li>After the restore process, your device will be successfully downgraded/restored to your selected target version.</li>
+              </ol>
+              <ul class="bullet-list">
+                <li>If you are stuck at the boot logo after downgrading, see the "Clearing NVRAM" section of the "Troubleshooting" wiki page for more details.</li>
+              </ul>
+
+              <h3 class="subpath-title">All other devices - restore (and jailbreak) to latest/lower iOS version</h3>
+              <ul class="bullet-list">
+                <li>Note: The iOS versions you can restore to are limited depending on your device.</li>
+              </ul>
+              <ol class="step-list">
+                <li>Plug in your device and place your device in DFU mode.</li>
+                <li>Start the script by running <code>restore.sh</code></li>
+                <li>When the main menu shows up, select Restore/Downgrade -&gt; Your preferred iOS version.</li>
+                <li>When prompted, select your options and follow the given instructions to put the device to pwnDFU mode.</li>
+                <li>After the restore process, your device will be successfully restored to your target iOS version.</li>
+              </ol>
+
+              <div class="tutorial-footer">
+                <button id="hideTutorialBtn2" class="arrow-btn" type="button">
+                  <span>&#8593;</span> Hide Tutorial
+                </button>
+                <a class="back-top" href="#top">Scroll Back to Top</a>
+              </div>
+            </div>
           </div>
         </section>
 
         <section id="g-3" class="section-block">
           <div class="section-header">
             <h2>Restore/Downgrade an A7 device to iOS 10.3.3</h2>
-            <span class="badge badge-ok">A7 / 64-bit</span>
+            <div class="header-actions">
+              <span class="badge badge-ok">A7 / 64-bit</span>
+              <button id="showTutorialBtn3" class="arrow-btn" type="button" aria-expanded="false" aria-controls="tutorial-g-3">
+                <span>&#8595;</span> Show Tutorial
+              </button>
+            </div>
           </div>
           <div class="section-body">
             <p>Downgrade path to iOS 10.3.3 for supported 64-bit A7 devices (iPhone 5s, iPad Air 1st gen, iPad mini 2).</p>
+
+            <div id="tutorial-g-3" class="tutorial-panel">
+              <div class="disclaimer-box">You are supposed to use Legacy iOS Kit with this!!</div>
+
+              <ul class="bullet-list">
+                <li>The procedure will be depending on your usage, operating system, and iOS device. Make sure that your setup is supported by the script. See the README for details.</li>
+                <li>You do NOT need blobs to use this, the script will get them for you.</li>
+                <li>The restore will ERASE ALL DATA on your iOS device. Backup your data before proceeding.</li>
+                <li>Make sure to have at least 10 GB of free space on your PC/Mac.</li>
+                <li>Do not rename the IPSW firmwares from their default names.</li>
+              </ul>
+
+              <ol class="step-list">
+                <li>Connect your iOS device to your PC/Mac.</li>
+                <li>Start the script by running <code>restore.sh</code></li>
+                <li>When the main menu shows up, select Restore/Downgrade -&gt; iOS 10.3.3.</li>
+                <li>When prompted, select your options and follow the given instructions to put the device to pwnDFU mode.
+                  <ul>
+                    <li>If you are using Linux, it will likely fail a lot here.</li>
+                    <li>If you have a spare iOS device that is jailbroken, you can use iPwnder Lite for iOS</li>
+                  </ul>
+                </li>
+                <li>After the restore process, your device will be successfully downgraded/restored to iOS 10.3.3.</li>
+              </ol>
+
+              <div class="tutorial-footer">
+                <button id="hideTutorialBtn3" class="arrow-btn" type="button">
+                  <span>&#8593;</span> Hide Tutorial
+                </button>
+                <a class="back-top" href="#top">Scroll Back to Top</a>
+              </div>
+            </div>
           </div>
         </section>
 
         <section id="g-4" class="section-block">
           <div class="section-header">
             <h2>A12 A13 Tethered</h2>
-            <span class="badge badge-warn">Tethered / Research</span>
+            <div class="header-actions">
+              <span class="badge badge-warn">Tethered / Research</span>
+              <button id="showTutorialBtn4" class="arrow-btn" type="button" aria-expanded="false" aria-controls="tutorial-g-4">
+                <span>&#8595;</span> Show Tutorial
+              </button>
+            </div>
           </div>
           <div class="section-body">
             <p>Notes and workflows for A12 and A13 devices where tethered or exploit-specific conditions apply.</p>
+
+            <div id="tutorial-g-4" class="tutorial-panel">
+              <div class="disclaimer-box">You are supposed to use Legacy iOS Kit with this!!</div>
+
+              <p>Legacy iOS Kit supports tethered downgrades and restores on A12/A13 devices compatible with usbliter8. The a12a13 module is heavily based on surrealra1n. Credits to pwnerblu and all surrealra1n contributors for their work.</p>
+
+              <h3 class="subpath-title">Supported Devices</h3>
+              <ul class="bullet-list">
+                <li>iPhone XS, XR, 11, and SE 2020, including Pro and Max variants</li>
+                <li>iPad mini 5</li>
+                <li>iPad Air 3</li>
+              </ul>
+
+              <h3 class="subpath-title">Supported Versions</h3>
+              <ul class="bullet-list">
+                <li>A12: iOS 14.0 beta 4 through iOS 16.6.1</li>
+                <li>A13: iOS 13.4 through iOS 16.6.1</li>
+                <li>Note: Support for iOS 16.1 and newer has been added thanks to libdmg-apfs by NSSpiral (LukeZGD fork for fixes and build)</li>
+              </ul>
+
+              <h3 class="subpath-title">Additional Steps for iOS 14 and 15 Restores</h3>
+              <p>When restoring to iOS 14 or 15, complete the following procedure before restoring to your desired version:</p>
+              <ol class="step-list">
+                <li>Restore to iOS 14 beta 4 (build 18A5342e). For A13 devices, an iOS 13.x version can also be used.</li>
+                <li>Perform a tethered boot using Just Boot.</li>
+                <li>Complete device activation during setup.</li>
+                <li>Once activation is complete, restore to your desired iOS 14 or 15 version.</li>
+              </ol>
+              <p>This procedure is not required when restoring to iOS 13 or 16.</p>
+
+              <h3 class="subpath-title">Tethered Restore/Downgrade</h3>
+              <p>This is a tethered restore/downgrade. You will need a PC/Mac and a usbliter8-compatible board to pwn the device and boot iOS after every reboot or power-off.</p>
+              <p>To boot the device, select Just Boot from the main menu, or run the following command, replacing <code>&lt;ios build id&gt;</code> with the target iOS build ID:</p>
+              <pre><code>./restore.sh --just-boot --build-id=&lt;ios build id&gt;</code></pre>
+              <p>For example, to boot iOS 16.0.3 (build 20A392):</p>
+              <pre><code>./restore.sh --just-boot --build-id=20A392</code></pre>
+
+              <h3 class="subpath-title">TrollStore</h3>
+              <p>TrollStore is the recommended way to install the jailbreak apps on iOS 14-16. The installation method depends on the target iOS version:</p>
+              <ul class="bullet-list">
+                <li>iOS 14 and 15: Install TrollStore using the TrollHelperOTA method.</li>
+                <li>iOS 16: Use the Install TrollStore option in the Legacy iOS Kit main menu, which uses the TrollRestore method.</li>
+              </ul>
+              <p>iOS 13 does not support TrollStore. Instead, sideload the jailbreak app. See the Sideload Method in the Jailbreaking wiki page.</p>
+
+              <h3 class="subpath-title">Jailbreaking</h3>
+              <p>Use the following tools to jailbreak your device, depending on the iOS version:</p>
+              <ul class="bullet-list">
+                <li>iOS 15 and 16: pwnerblu's Dopamine fork. Regular Dopamine builds are known to crash on these tethered restores, so use this fork instead.</li>
+                <li>iOS 14: Taurine</li>
+                <li>iOS 13: Amethyst</li>
+              </ul>
+
+              <h3 class="subpath-title">Broken Device Features and Info</h3>
+              <p>The following limitations are based on information from surrealra1n and may vary depending on the iOS version and device.</p>
+
+              <h3 class="subpath-title">iOS 13</h3>
+              <ul class="bullet-list">
+                <li>SEP: Partially incompatible.</li>
+                <li>Passcode and Touch/Face ID: Cannot be configured because of BPR enforcement.</li>
+                <li>Home button: The Haptic Home button will not work, and the AssistiveTouch Home button option will not appear.</li>
+                <li>iPhone 11 models: Should be largely functional, with the exceptions of Ultra Wideband (UWB), Face ID, and passcode functionality.</li>
+              </ul>
+
+              <h3 class="subpath-title">iOS 14 and 15</h3>
+              <ul class="bullet-list">
+                <li>Activation: SEP is partially incompatible, so the device cannot be activated after restoring without first completing the preliminary procedure described above.</li>
+                <li>Passcode and Touch/Face ID: Cannot be configured because of BPR enforcement.</li>
+                <li>Sideloading: Installing apps outside of TrollStore may not work.</li>
+                <li>Other issues: Additional features may be broken due to SEP incompatibility.</li>
+              </ul>
+
+              <h3 class="subpath-title">iOS 16</h3>
+              <ul class="bullet-list">
+                <li>Passcode and Touch/Face ID: Cannot be configured because of BPR enforcement.</li>
+                <li>Haptic Home button: Will not work.</li>
+                <li>Activation: The device should activate normally. Restoring to iOS 13.x or iOS 14 beta 4 is not necessary.</li>
+                <li>Developer Mode: Enabled automatically during the restore; manual activation is not required.</li>
+              </ul>
+
+              <div class="tutorial-footer">
+                <button id="hideTutorialBtn4" class="arrow-btn" type="button">
+                  <span>&#8593;</span> Hide Tutorial
+                </button>
+                <a class="back-top" href="#top">Scroll Back to Top</a>
+              </div>
+            </div>
           </div>
         </section>
 
         <section id="g-5" class="section-block">
           <div class="section-header">
             <h2>Pwning Using Another iOS Device</h2>
-            <span class="badge">Exploit</span>
+            <div class="header-actions">
+              <span class="badge">Exploit</span>
+              <button id="showTutorialBtn5" class="arrow-btn" type="button" aria-expanded="false" aria-controls="tutorial-g-5">
+                <span>&#8595;</span> Show Tutorial
+              </button>
+            </div>
           </div>
           <div class="section-body">
             <p>Exploiting or entering DFU/pwned state on a target iDevice using a second iOS device instead of a desktop computer.</p>
+
+            <div id="tutorial-g-5" class="tutorial-panel">
+              <div class="disclaimer-box">You are supposed to use Legacy iOS Kit with this!!</div>
+
+              <ul class="bullet-list">
+                <li>You can use another iOS device that is jailbroken to put your target device in pwned DFU mode.</li>
+                <li>This can be very useful if you do not have a Mac but have a spare iOS device on hand.</li>
+                <li>This method can be used for 3GS, touch 3, A4, A6(X), and 64-bit (A7-A11) target devices.</li>
+              </ul>
+
+              <img class="guide-img" src="https://private-user-images.githubusercontent.com/26163116/328023291-dfe7c8cf-197f-4edc-b0a4-7113c1d49160.jpg" alt="iPhone 7 host with Lightning to USB camera adapter connected to a DFU iPhone 5S target via Lightning to USB-A cable" />
+
+              <ul class="bullet-list">
+                <li>In the picture, the iPhone 7 on the right is the host device where iPwnder Lite is installed and USB lightning to camera adapter is plugged in. It is jailbroken with Dopamine.</li>
+                <li>The iPhone 5S on the left is the target device I will be pwning with checkm8, plugged into the iPhone 7 via the USB adapter with a lightning to USB-A cable. I have also placed it in DFU mode.</li>
+              </ul>
+
+              <ol class="step-list">
+                <li>On your host device, install iPwnder Lite, and follow the setup in the picture above
+                  <ul>
+                    <li>Get iPwnder Lite from my repo: <code>https://lukezgd.github.io/repo</code></li>
+                    <li>For pwning 64-bit (A7-A11) target devices, get gaster instead</li>
+                  </ul>
+                </li>
+                <li>Install and open NewTerm or MTerminal on the host device</li>
+                <li>Run this command: <code>ipwnder</code>
+                  <ul>
+                    <li>For pwning 64-bit (A7-A11) target devices, run this command: <code>gaster pwn</code></li>
+                  </ul>
+                </li>
+                <li>If successful, this will put the target device in pwned DFU mode</li>
+                <li>Once the target device is now in pwned DFU mode, plug it back to the PC/Mac and proceed with Legacy iOS Kit usage</li>
+              </ol>
+
+              <h3 class="subpath-title">Notes</h3>
+              <ul class="bullet-list">
+                <li>iPwnder Lite and gaster should work on all jailbreaks for iOS 9 and newer.</li>
+                <li>For iOS 15 and newer, the tools have been tested successfully on palera1n and Dopamine.</li>
+                <li>If your host device has a USB-C port (eg. newer iPads), use a USB-A to USB-C adapter instead of a USB-A to lightning adapter.</li>
+                <li>Do not use lightning to USB-C cables, they will not work. Only use lightning to USB A cables.</li>
+              </ul>
+
+              <div class="tutorial-footer">
+                <button id="hideTutorialBtn5" class="arrow-btn" type="button">
+                  <span>&#8593;</span> Hide Tutorial
+                </button>
+                <a class="back-top" href="#top">Scroll Back to Top</a>
+              </div>
+            </div>
           </div>
         </section>
 
         <section id="g-6" class="section-block">
           <div class="section-header">
             <h2>Restore/Downgrade a 32-bit device to an iOS version I have SHSH blobs for</h2>
-            <span class="badge">SHSH Blobs</span>
+            <div class="header-actions">
+              <span class="badge">SHSH Blobs</span>
+              <button id="showTutorialBtn6" class="arrow-btn" type="button" aria-expanded="false" aria-controls="tutorial-g-6">
+                <span>&#8595;</span> Show Tutorial
+              </button>
+            </div>
           </div>
           <div class="section-body">
             <p>Restoring or downgrading a 32-bit iDevice using locally saved SHSH blobs for the target firmware.</p>
+
+            <div id="tutorial-g-6" class="tutorial-panel">
+              <div class="disclaimer-box">You are supposed to use Legacy iOS Kit with this!!</div>
+
+              <ul class="bullet-list">
+                <li>The procedure will be depending on your usage, operating system, and iOS device. Make sure that your setup is supported by the script. See the README for details.</li>
+                <li>You do NOT need blobs for iOS 8.4.1/6.1.3, the script will get them for you.</li>
+                <li>The restore will ERASE ALL DATA on your iOS device. Backup your data before proceeding.</li>
+                <li>Make sure to have free space on your PC/Mac for the IPSW files.</li>
+                <li>Do not rename the IPSW firmwares from their default names.</li>
+                <li>If your device is not on the latest iOS version, I recommend saving onboard blobs first before continuing.</li>
+                <li>"A6(X)" refers to iPhone 5 and iPad 4.</li>
+                <li>"A5(X)" refers to iPhone 4S, iPad 2, iPad 3, iPad mini 1, and iPod touch 5th gen.</li>
+                <li>If the option has "jailbroken", jailbreak your device first. If not, jailbreaking is not required.</li>
+                <li>If the script always fails to detect your device, try rebooting your PC/Mac.</li>
+              </ul>
+
+              <h3 class="subpath-title">For devices jailbroken with Pangu</h3>
+              <ul class="bullet-list">
+                <li>For devices using Pangu and jailbroken method, you need to install the latest untether for your iOS version first before continuing.</li>
+              </ul>
+
+              <p><strong>Please select your iOS device.</strong></p>
+
+              <h3 class="subpath-title">All devices, jailbroken on iOS 9 or lower</h3>
+              <ul class="bullet-list">
+                <li>Note: If you used EverPwnage to jailbreak, you may start from the 4th step since OpenSSH is pre-installed (unless you disabled it)</li>
+              </ul>
+              <ol class="step-list">
+                <li>Open Cydia on your device, and wait for sources to refresh.
+                  <ul>
+                    <li>If refreshing takes too long, remove the ultrasn0w and ZodTTD repos, force close Cydia, then open Cydia again.</li>
+                  </ul>
+                </li>
+                <li>When it asks to upgrade, you can choose to not upgrade anything (Ignore), it is optional.</li>
+                <li>Search for "OpenSSH" and install it.</li>
+                <li>Plug in your device and start the script by running <code>restore.sh</code></li>
+                <li>When the main menu shows up, select Restore/Downgrade.</li>
+                <li>Select your preferred option/iOS version.</li>
+                <li>Download/select the IPSW(s) needed to continue.</li>
+                <li>Select Start Restore.</li>
+                <li>When prompted, select your options and follow on-screen instructions to put the device to kDFU/pwnDFU mode.</li>
+                <li>After the restore process, your device should be successfully downgraded/restored to your selected target version.</li>
+              </ol>
+
+              <h3 class="subpath-title">A6(X) devices, jailbroken on iOS 10</h3>
+              <ul class="bullet-list">
+                <li>You need to jailbreak with socket to follow these steps.</li>
+              </ul>
+              <ol class="step-list">
+                <li>Open Zebra on your device, and wait for sources to refresh.</li>
+                <li>Add my repository: <code>https://lukezgd.github.io/repo/</code>
+                  <ul>
+                    <li>Go to Sources, then tap '+' at the top left.</li>
+                  </ul>
+                </li>
+                <li>Search and install "Dropbear" from my repo.</li>
+                <li>Plug in your device and start the script by running <code>restore.sh</code></li>
+                <li>When the main menu shows up, select Restore/Downgrade.</li>
+                <li>Select your preferred option/iOS version.</li>
+                <li>Download/select the IPSW(s) needed to continue.</li>
+                <li>Select Start Restore.</li>
+                <li>When prompted, select your options and follow on-screen instructions to put the device to kDFU/pwnDFU mode.</li>
+                <li>After the restore process, your device should be successfully downgraded/restored to your selected target version.</li>
+              </ol>
+
+              <h3 class="subpath-title">A5(X) devices, not jailbroken</h3>
+              <ul class="bullet-list">
+                <li>It is highly recommended to jailbreak your device and follow the "jailbroken" steps instead of doing this. Only use this if you are unable to jailbreak at all for some reason.</li>
+                <li>You need to have an Arduino and USB Host Shield or a Raspberry Pi Pico in order to use checkm8-a5. Go to the "checkm8-a5" page for more details.</li>
+              </ul>
+
+              <h3 class="subpath-title">Older devices and A6(X) devices, not jailbroken</h3>
+              <ul class="bullet-list">
+                <li>A6(X) devices: It is highly recommended to jailbreak your device and follow the "jailbroken" steps instead of doing this. Only use this if you are unable to jailbreak at all for some reason.</li>
+                <li>You NEED a working Home and Top/Power button to enter DFU mode to follow this.</li>
+                <li>If your button/s are broken and you are unable to jailbreak nor enter DFU mode, see here for details about "DFU IPSW"</li>
+              </ul>
+              <ol class="step-list">
+                <li>Plug in your device and place your device in DFU mode.</li>
+                <li>Start the script by running <code>restore.sh</code></li>
+                <li>When the main menu shows up, select Restore/Downgrade.</li>
+                <li>When prompted, select your options and follow the given instructions to put the device to pwnDFU mode.
+                  <ul>
+                    <li>If you are using Linux, it will likely fail a lot here for A6(X) devices. It is recommended to follow the jailbroken steps instead.</li>
+                    <li>If you have a spare iOS device that is jailbroken, you can use iPwnder Lite for iOS</li>
+                  </ul>
+                </li>
+                <li>After the restore process, your device will be successfully downgraded/restored to your selected target version.</li>
+              </ol>
+              <ul class="bullet-list">
+                <li>If you are having trouble placing the device in pwnDFU mode, proceed here for alternatives.</li>
+              </ul>
+
+              <div class="tutorial-footer">
+                <button id="hideTutorialBtn6" class="arrow-btn" type="button">
+                  <span>&#8593;</span> Hide Tutorial
+                </button>
+                <a class="back-top" href="#top">Scroll Back to Top</a>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -490,5 +1075,35 @@
   <footer>
     Reference compiled from <a href="https://github.com/f9p1h7-cell/iDevice-info" target="_blank" rel="noopener">f9p1h7-cell/iDevice-info</a> &bull; See <a href="https://ios.cfw.guide" target="_blank" rel="noopener">ios.cfw.guide</a> for current jailbreak details
   </footer>
+
+  <script>
+    function bindTutorialToggle(showId, hideId, panelId, sectionId) {
+      const showBtn = document.getElementById(showId);
+      const hideBtn = document.getElementById(hideId);
+      const panel = document.getElementById(panelId);
+      const section = document.getElementById(sectionId);
+
+      function setOpen(open) {
+        panel.classList.toggle("open", open);
+        showBtn.setAttribute("aria-expanded", String(open));
+        showBtn.innerHTML = open
+          ? '<span>&#8595;</span> Tutorial Open'
+          : '<span>&#8595;</span> Show Tutorial';
+      }
+
+      showBtn.addEventListener("click", () => setOpen(true));
+      hideBtn.addEventListener("click", () => {
+        setOpen(false);
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+
+    bindTutorialToggle("showTutorialBtn", "hideTutorialBtn", "tutorial-g-1", "g-1");
+    bindTutorialToggle("showTutorialBtn2", "hideTutorialBtn2", "tutorial-g-2", "g-2");
+    bindTutorialToggle("showTutorialBtn3", "hideTutorialBtn3", "tutorial-g-3", "g-3");
+    bindTutorialToggle("showTutorialBtn4", "hideTutorialBtn4", "tutorial-g-4", "g-4");
+    bindTutorialToggle("showTutorialBtn5", "hideTutorialBtn5", "tutorial-g-5", "g-5");
+    bindTutorialToggle("showTutorialBtn6", "hideTutorialBtn6", "tutorial-g-6", "g-6");
+  </script>
 </body>
 </html>
