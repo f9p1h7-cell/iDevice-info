@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guides — iDevice Info</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface-2: #1f2630;
+      --border: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --accent: #58a6ff;
+      --accent-soft: rgba(88, 166, 255, 0.14);
+      --warn: #d29922;
+      --warn-soft: rgba(210, 153, 34, 0.15);
+      --ok: #3fb950;
+      --ok-soft: rgba(63, 185, 80, 0.14);
+      --radius: 10px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      padding: 20px 16px;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 8px;
+    }
+
+    .top-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+
+    .nav-links a.active {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    main {
+      padding: 24px 0 48px;
+    }
+
+    .guide-grid {
+      display: grid;
+      grid-template-columns: 275px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 860px) {
+      .guide-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .toc-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      position: sticky;
+      top: 16px;
+      max-height: calc(100vh - 32px);
+      overflow-y: auto;
+    }
+
+    @media (max-width: 860px) {
+      .toc-card {
+        position: static;
+        max-height: none;
+      }
+    }
+
+    .toc-title {
+      margin: 0 0 10px;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+
+    .toc-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .toc-list a {
+      display: block;
+      padding: 5px 9px;
+      border-radius: 7px;
+      font-size: 0.84rem;
+      color: var(--text);
+      line-height: 1.35;
+    }
+
+    .toc-list a:hover {
+      background: var(--surface-2);
+      text-decoration: none;
+      color: var(--accent);
+    }
+
+    .section-block {
+      margin-bottom: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      scroll-margin-top: 16px;
+    }
+
+    .section-header {
+      padding: 12px 16px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: 1.02rem;
+    }
+
+    .badge {
+      font-size: 0.76rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: 1px solid rgba(88, 166, 255, 0.25);
+      white-space: nowrap;
+    }
+
+    .badge-warn {
+      background: var(--warn-soft);
+      color: var(--warn);
+      border-color: rgba(210, 153, 34, 0.3);
+    }
+
+    .badge-ok {
+      background: var(--ok-soft);
+      color: var(--ok);
+      border-color: rgba(63, 185, 80, 0.3);
+    }
+
+    .section-body {
+      padding: 14px 16px;
+      font-size: 0.92rem;
+    }
+
+    .section-body p {
+      margin: 0;
+    }
+
+    code {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 0.85em;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 16px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="top-bar">
+        <div>
+          <h1>iDevice Info — Guides</h1>
+          <p class="subtitle">Restores, downgrades, jailbreaks, blobs, activation, sideloading, ramdisks, and legacy iOS notes</p>
+        </div>
+        <nav class="nav-links" aria-label="Site navigation">
+          <a href="../index.html">Home</a>
+          <a href="./index.html" class="active">Guide</a>
+          <a href="https://github.com/f9p1h7-cell/iDevice-info/wiki/Q&amp;A" target="_blank" rel="noopener">Q&amp;A</a>
+          <a href="https://github.com/f9p1h7-cell/iDevice-info/blob/main/README.md#iphone-jailbreaks" target="_blank" rel="noopener">Jailbreaks</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="guide-grid">
+      <aside class="toc-card" aria-label="Guide topics">
+        <h2 class="toc-title">Guides (21)</h2>
+        <ul class="toc-list">
+          <li><a href="#g-1">1. 32-bit to iOS 8.4.1 / 6.1.3</a></li>
+          <li><a href="#g-2">2. Restore / Hacktivate Legacy 32-bit</a></li>
+          <li><a href="#g-3">3. A7 to iOS 10.3.3</a></li>
+          <li><a href="#g-4">4. A12 / A13 Tethered</a></li>
+          <li><a href="#g-5">5. Pwning Using Another iOS Device</a></li>
+          <li><a href="#g-6">6. 32-bit Restore with SHSH Blobs</a></li>
+          <li><a href="#g-7">7. 32-bit with iOS 7 Blobs (powdersn0w)</a></li>
+          <li><a href="#g-8">8. Jailbreaking</a></li>
+          <li><a href="#g-9">9. UsbLiter8</a></li>
+          <li><a href="#g-10">10. 64-bit Restore with Blobs (futurerestore)</a></li>
+          <li><a href="#g-11">11. Jailbreak 32-bit on Current iOS</a></li>
+          <li><a href="#g-12">12. Save Onboard SHSH Blobs</a></li>
+          <li><a href="#g-13">13. Save Blobs from Cydia (32-bit)</a></li>
+          <li><a href="#g-14">14. Hacktivation</a></li>
+          <li><a href="#g-15">15. Sideload Apps on Linux</a></li>
+          <li><a href="#g-16">16. Activate iOS Device</a></li>
+          <li><a href="#g-17">17. Hacktivate Old iPhone (No SIM)</a></li>
+          <li><a href="#g-18">18. Boot SSH Ramdisk (32-bit &amp; 64-bit)</a></li>
+          <li><a href="#g-19">19. Install IPA on Jailbroken iOS</a></li>
+          <li><a href="#g-20">20. iOS 6 / 7 on iPod touch 3 / iPad 1</a></li>
+          <li><a href="#g-21">21. iOS 7 on iPod touch 4th gen</a></li>
+        </ul>
+      </aside>
+
+      <div>
+        <section id="g-1" class="section-block">
+          <div class="section-header">
+            <h2>Restore/Downgrade a 32-bit device to iOS 8.4.1/6.1.3</h2>
+            <span class="badge badge-ok">Downgrade</span>
+          </div>
+          <div class="section-body">
+            <p>OTA downgrade path for supported 32-bit hardware (such as iPhone 4S, iPhone 5, iPad 2, and iPod touch 5th gen depending on target version).</p>
+          </div>
+        </section>
+
+        <section id="g-2" class="section-block">
+          <div class="section-header">
+            <h2>Restore/Downgrade (and hacktivate) an iPhone 2G/3G/3GS/4/4S, iPod touch 1/2/3/4, iPad 1</h2>
+            <span class="badge">Legacy 32-bit</span>
+          </div>
+          <div class="section-body">
+            <p>Covers restoring, downgrading, and hacktivating early 30-pin and early Lightning 32-bit iPhones, iPod touches, and the 1st-gen iPad.</p>
+          </div>
+        </section>
+
+        <section id="g-3" class="section-block">
+          <div class="section-header">
+            <h2>Restore/Downgrade an A7 device to iOS 10.3.3</h2>
+            <span class="badge badge-ok">A7 / 64-bit</span>
+          </div>
+          <div class="section-body">
+            <p>Downgrade path to iOS 10.3.3 for supported 64-bit A7 devices (iPhone 5s, iPad Air 1st gen, iPad mini 2).</p>
+          </div>
+        </section>
+
+        <section id="g-4" class="section-block">
+          <div class="section-header">
+            <h2>A12 A13 Tethered</h2>
+            <span class="badge badge-warn">Tethered / Research</span>
+          </div>
+          <div class="section-body">
+            <p>Notes and workflows for A12 and A13 devices where tethered or exploit-specific conditions apply.</p>
+          </div>
+        </section>
+
+        <section id="g-5" class="section-block">
+          <div class="section-header">
+            <h2>Pwning Using Another iOS Device</h2>
+            <span class="badge">Exploit</span>
+          </div>
+          <div class="section-body">
+            <p>Exploiting or entering DFU/pwned state on a target iDevice using a second iOS device instead of a desktop computer.</p>
+          </div>
+        </section>
+
+        <section id="g-6" class="section-block">
+          <div class="section-header">
+            <h2>Restore/Downgrade a 32-bit device to an iOS version I have SHSH blobs for</h2>
+            <span class="badge">SHSH Blobs</span>
+          </div>
+          <div class="section-body">
+            <p>Restoring or downgrading a 32-bit iDevice using locally saved SHSH blobs for the target firmware.</p>
+          </div>
+        </section>
+
+        <section id="g-7" class="section-block">
+          <div class="section-header">
+            <h2>Restore/Downgrade a 32-bit device to other iOS versions using iOS 7 blobs. (powdersn0w)</h2>
+            <span class="badge">powdersn0w</span>
+          </div>
+          <div class="section-body">
+            <p>Using <code>powdersn0w</code> with saved iOS 7 SHSH blobs on compatible 32-bit devices.</p>
+          </div>
+        </section>
+
+        <section id="g-8" class="section-block">
+          <div class="section-header">
+            <h2>Jailbreaking</h2>
+            <span class="badge">Overview</span>
+          </div>
+          <div class="section-body">
+            <p>General jailbreak overview across iPhone, iPad, iPod touch, watchOS, and macOS—cross-referenced with <a href="../index.html">Jailbreaks</a> and <a href="https://ios.cfw.guide" target="_blank" rel="noopener">ios.cfw.guide</a>.</p>
+          </div>
+        </section>
+
+        <section id="g-9" class="section-block">
+          <div class="section-header">
+            <h2>UsbLiter8</h2>
+            <span class="badge">Utility</span>
+          </div>
+          <div class="section-body">
+            <p>Reference notes and steps for <code>UsbLiter8</code>.</p>
+          </div>
+        </section>
+
+        <section id="g-10" class="section-block">
+          <div class="section-header">
+            <h2>Restore/Downgrade a 64-bit device to an iOS version I have SHSH blobs for. (futurerestore)</h2>
+            <span class="badge">futurerestore</span>
+          </div>
+          <div class="section-body">
+            <p>Using <code>futurerestore</code> with saved SHSH blobs, SEP/Baseband compatibility checks, and nonce setting on 64-bit devices.</p>
+          </div>
+        </section>
+
+        <section id="g-11" class="section-block">
+          <div class="section-header">
+            <h2>Jailbreak a 32-bit device on its current iOS version</h2>
+            <span class="badge">32-bit Jailbreak</span>
+          </div>
+          <div class="section-body">
+            <p>Jailbreaking a 32-bit iPhone, iPad, or iPod touch on the firmware already installed on it.</p>
+          </div>
+        </section>
+
+        <section id="g-12" class="section-block">
+          <div class="section-header">
+            <h2>Save onboard SHSH blobs of my current iOS version</h2>
+            <span class="badge badge-ok">SHSH Blobs</span>
+          </div>
+          <div class="section-body">
+            <p>Extracting and backing up onboard SHSH blobs from the firmware currently installed on your device.</p>
+          </div>
+        </section>
+
+        <section id="g-13" class="section-block">
+          <div class="section-header">
+            <h2>Save SHSH blobs from Cydia servers. (32-bit devices only)</h2>
+            <span class="badge">32-bit / Cydia</span>
+          </div>
+          <div class="section-body">
+            <p>Fetching historical SHSH blobs archived on Cydia servers for 32-bit devices.</p>
+          </div>
+        </section>
+
+        <section id="g-14" class="section-block">
+          <div class="section-header">
+            <h2>Hacktivation</h2>
+            <span class="badge">Activation</span>
+          </div>
+          <div class="section-body">
+            <p>Bypassing carrier/activation lock screens on supported legacy devices when official activation servers are unavailable or a SIM is missing.</p>
+          </div>
+        </section>
+
+        <section id="g-15" class="section-block">
+          <div class="section-header">
+            <h2>Sideload apps to iOS device on Linux</h2>
+            <span class="badge">Linux</span>
+          </div>
+          <div class="section-body">
+            <p>Installing IPAs or sideloading tools onto an iOS device from a Linux environment.</p>
+          </div>
+        </section>
+
+        <section id="g-16" class="section-block">
+          <div class="section-header">
+            <h2>Activate iOS device</h2>
+            <span class="badge">Activation</span>
+          </div>
+          <div class="section-body">
+            <p>Standard activation steps and troubleshooting for getting past the Hello / Activation screen.</p>
+          </div>
+        </section>
+
+        <section id="g-17" class="section-block">
+          <div class="section-header">
+            <h2>Hacktivate old iPhone (activate without valid SIM card)</h2>
+            <span class="badge">Old iPhone</span>
+          </div>
+          <div class="section-body">
+            <p>Activating an older iPhone when you do not have a valid or original carrier SIM card on hand.</p>
+          </div>
+        </section>
+
+        <section id="g-18" class="section-block">
+          <div class="section-header">
+            <h2>Boot an SSH Ramdisk (32-bit and 64-bit devices)</h2>
+            <span class="badge">SSH Ramdisk</span>
+          </div>
+          <div class="section-body">
+            <p>Building or booting an SSH ramdisk on 32-bit and 64-bit iDevices for filesystem access, diagnostics, or recovery tasks.</p>
+          </div>
+        </section>
+
+        <section id="g-19" class="section-block">
+          <div class="section-header">
+            <h2>Install IPA files to jailbroken iOS device</h2>
+            <span class="badge">Jailbroken iOS</span>
+          </div>
+          <div class="section-body">
+            <p>Installing <code>.ipa</code> packages directly on a jailbroken iPhone, iPad, or iPod touch.</p>
+          </div>
+        </section>
+
+        <section id="g-20" class="section-block">
+          <div class="section-header">
+            <h2>Install iOS 6 or 7 on iPod touch 3rd gen/iPad 1</h2>
+            <span class="badge badge-warn">Legacy Hardware Note</span>
+          </div>
+          <div class="section-body">
+            <p>Compatibility notes and caveats for iOS 6 or iOS 7 on <code>iPod touch 3rd gen</code> and <code>iPad 1st gen</code> (for example, iPad 1st gen tops out at iOS 5.1.1 natively, and iPod touch 3rd gen tops out at iOS 5.1.1 natively).</p>
+          </div>
+        </section>
+
+        <section id="g-21" class="section-block">
+          <div class="section-header">
+            <h2>Install iOS 7 on iPod touch 4th gen</h2>
+            <span class="badge badge-warn">Legacy Hardware Note</span>
+          </div>
+          <div class="section-body">
+            <p>Notes for <code>iOS 7</code> on <code>iPod touch 4th gen</code> (which officially topped out at iOS 6.1.6 due to RAM/hardware limits).</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Reference compiled from <a href="https://github.com/f9p1h7-cell/iDevice-info" target="_blank" rel="noopener">f9p1h7-cell/iDevice-info</a> &bull; See <a href="https://ios.cfw.guide" target="_blank" rel="noopener">ios.cfw.guide</a> for current jailbreak details
+  </footer>
+</body>
+</html>
