@@ -85,6 +85,52 @@
       border-color: var(--accent);
     }
 
+    .search-bar-wrap {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 220px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 0.92rem;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .clear-btn {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .clear-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .search-meta {
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
     main {
       padding: 24px 0 48px;
     }
@@ -241,6 +287,20 @@
       margin-bottom: 0;
     }
 
+    .empty-state {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 18px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .empty-state.visible {
+      display: block;
+    }
+
     code {
       background: var(--surface-2);
       border: 1px solid var(--border);
@@ -273,6 +333,18 @@
           <a href="https://github.com/f9p1h7-cell/iDevice-info/blob/main/README.md#iphone-jailbreaks" target="_blank" rel="noopener">Jailbreaks</a>
         </nav>
       </div>
+
+      <div class="search-bar-wrap">
+        <input
+          id="deviceSearch"
+          class="search-input"
+          type="search"
+          placeholder="Search devices, chipsets, RAM, jailbreaks, dates, or exploits (e.g. A10, 12 GB, Dopamine, checkm8)..."
+          aria-label="Search iDevice Info"
+        />
+        <button id="clearSearchBtn" class="clear-btn" type="button">Clear</button>
+        <span id="searchMeta" class="search-meta">Showing all sections</span>
+      </div>
     </div>
   </header>
 
@@ -286,11 +358,11 @@
           <li><a href="#ipad-chipsets">iPad Chip Sets</a></li>
           <li><a href="#watch-chipsets">Apple Watch Chip Sets</a></li>
           <li><a href="#macbook-chipsets">MacBook Chip Sets</a></li>
-          <li><a href="#ram-iphone">RAM iPhone</a></li>
-          <li><a href="#ram-ipod">RAM iPod</a></li>
-          <li><a href="#ram-ipad">RAM iPad</a></li>
-          <li><a href="#ram-watch">RAM Apple Watch</a></li>
-          <li><a href="#ram-macbook">RAM MacBook</a></li>
+          <li><a href="#ram-iphone">iPhone RAM</a></li>
+          <li><a href="#ram-ipod">iPod RAM</a></li>
+          <li><a href="#ram-ipad">iPad RAM</a></li>
+          <li><a href="#ram-watch">Apple Watch RAM</a></li>
+          <li><a href="#ram-macbook">MacBook RAM</a></li>
           <li><a href="#iphone-jailbreaks">iPhone Jailbreaks</a></li>
           <li><a href="#ipod-jailbreaks">iPod Jailbreaks</a></li>
           <li><a href="#ipad-jailbreaks">iPad Jailbreaks</a></li>
@@ -312,7 +384,7 @@
         </ul>
       </aside>
 
-      <div>
+      <div id="sectionsContainer">
         <section id="iphone-chipsets" class="section-block">
           <div class="section-header">
             <h2>iPhone Chip Sets</h2>
@@ -474,7 +546,7 @@
 
         <section id="ram-iphone" class="section-block">
           <div class="section-header">
-            <h2>RAM iPhone</h2>
+            <h2>iPhone RAM</h2>
             <span class="badge">Memory</span>
           </div>
           <div class="list-rows">
@@ -510,7 +582,7 @@
 
         <section id="ram-ipod" class="section-block">
           <div class="section-header">
-            <h2>RAM iPod</h2>
+            <h2>iPod RAM</h2>
             <span class="badge">Memory</span>
           </div>
           <div class="list-rows">
@@ -524,7 +596,7 @@
 
         <section id="ram-ipad" class="section-block">
           <div class="section-header">
-            <h2>RAM iPad</h2>
+            <h2>iPad RAM</h2>
             <span class="badge">Memory</span>
           </div>
           <div class="list-rows">
@@ -560,7 +632,7 @@
 
         <section id="ram-watch" class="section-block">
           <div class="section-header">
-            <h2>RAM Apple Watch</h2>
+            <h2>Apple Watch RAM</h2>
             <span class="badge">Memory</span>
           </div>
           <div class="list-rows">
@@ -576,7 +648,7 @@
 
         <section id="ram-macbook" class="section-block">
           <div class="section-header">
-            <h2>RAM MacBook</h2>
+            <h2>MacBook RAM</h2>
             <span class="badge">Unified Memory</span>
           </div>
           <div class="list-rows">
@@ -1002,6 +1074,10 @@
             <div class="row-item"><span class="device-name">iPod touch 5th gen</span><span class="spec-value">9.3.5/6</span></div>
           </div>
         </section>
+
+        <div id="emptyState" class="empty-state">
+          No matching devices, specs, or sections found. Try another search term or click <strong>Clear</strong>.
+        </div>
       </div>
     </div>
   </main>
@@ -1009,5 +1085,81 @@
   <footer>
     Reference compiled from <a href="https://github.com/f9p1h7-cell/iDevice-info" target="_blank" rel="noopener">f9p1h7-cell/iDevice-info</a> &bull; See <a href="https://ios.cfw.guide" target="_blank" rel="noopener">ios.cfw.guide</a> for current jailbreak details
   </footer>
+
+  <script>
+    const searchInput = document.getElementById("deviceSearch");
+    const clearBtn = document.getElementById("clearSearchBtn");
+    const searchMeta = document.getElementById("searchMeta");
+    const emptyState = document.getElementById("emptyState");
+    const sections = Array.from(document.querySelectorAll("#sectionsContainer .section-block"));
+    const tocLinks = Array.from(document.querySelectorAll(".toc-list a"));
+
+    function filterContent() {
+      const query = searchInput.value.trim().toLowerCase();
+      let visibleSections = 0;
+      let visibleRows = 0;
+
+      sections.forEach((section) => {
+        const headingText = (section.querySelector(".section-header h2")?.textContent || "").toLowerCase();
+        const rows = Array.from(section.querySelectorAll(".row-item"));
+        const noteBox = section.querySelector(".note-box");
+        let sectionHasMatch = false;
+
+        if (!query) {
+          rows.forEach((row) => {
+            row.style.display = "";
+          });
+          if (noteBox) noteBox.style.display = "";
+          section.style.display = "";
+          visibleSections += 1;
+          visibleRows += rows.length;
+          return;
+        }
+
+        if (rows.length > 0) {
+          let matchingRowsInSection = 0;
+          rows.forEach((row) => {
+            const text = row.textContent.toLowerCase();
+            const match = text.includes(query) || headingText.includes(query);
+            row.style.display = match ? "" : "none";
+            if (match) {
+              matchingRowsInSection += 1;
+              visibleRows += 1;
+            }
+          });
+          sectionHasMatch = matchingRowsInSection > 0;
+          if (noteBox) {
+            noteBox.style.display = noteBox.textContent.toLowerCase().includes(query) || sectionHasMatch ? "" : "none";
+          }
+        } else if (noteBox) {
+          sectionHasMatch = noteBox.textContent.toLowerCase().includes(query) || headingText.includes(query);
+          noteBox.style.display = sectionHasMatch ? "" : "none";
+        }
+
+        section.style.display = sectionHasMatch ? "" : "none";
+        if (sectionHasMatch) visibleSections += 1;
+
+        const tocLink = tocLinks.find((a) => a.getAttribute("href") === `#${section.id}`);
+        if (tocLink && tocLink.parentElement) {
+          tocLink.parentElement.style.display = sectionHasMatch ? "" : "none";
+        }
+      });
+
+      emptyState.classList.toggle("visible", visibleSections === 0);
+
+      if (!query) {
+        searchMeta.textContent = `Showing all ${sections.length} sections`;
+      } else {
+        searchMeta.textContent = `${visibleRows} matching row${visibleRows === 1 ? "" : "s"} across ${visibleSections} section${visibleSections === 1 ? "" : "s"}`;
+      }
+    }
+
+    searchInput.addEventListener("input", filterContent);
+    clearBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      filterContent();
+      searchInput.focus();
+    });
+  </script>
 </body>
 </html>
